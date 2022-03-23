@@ -89,7 +89,7 @@ $mform->display();
             echo "<tr>
                 <td>
                     <div class='row px-2'>
-                        <input id='#link$link->id' class='form-control col' type='text' value='$shortlink_config->rooturl/$link->link' readonly>
+                        <input id='#link$link->id' class='form-control col' type='text' value='$shortlink_config->urlroot/$link->link' readonly>
                         <button onclick='copyUrl(\"#link$link->id\")' class='btn btn-primary col' style='max-width: 72px'>COPY</button>
                     </div>
                 </td>
