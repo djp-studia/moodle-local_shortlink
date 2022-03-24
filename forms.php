@@ -35,6 +35,6 @@ class simplehtml_form extends moodleform {
         $mform->addElement('text', 'short_link', "Short Link", "Testing", "Testing");
         $mform->setType('short_link', PARAM_ALPHANUMEXT);
         $mform->addRule('short_link', "Hanya Angka dan Huruf", 'alphanumeric', null, 'client');
-        $this->add_action_buttons(false);
+        $this->add_action_buttons(false, 'Generate Link');
     }
 }
