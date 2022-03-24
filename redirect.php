@@ -25,7 +25,24 @@
 
 require(__DIR__ . '/../../config.php');
 
-$link = required_param('link', PARAM_TEXT);
-$course = \local_shortlink\Shortlink::getCourseByShortlink($link);
+// get link parameter and link object
+$linkParameter = required_param('link', PARAM_TEXT);
+$shortlinkObj = new \local_shortlink\Shortlink();
 
-redirect(new moodle_url('/course/view.php', array("id" => $course->id)));
+try {
+    // cek if link exists
+    $link = $shortlinkObj->getShortlink($linkParameter);
+} catch (Exception $e) {
+    // if not, show error message
+    $PAGE->set_heading("Link Error");
+    \core\notification::error("Short Link yang Anda tuju tidak valid. Mohon periksa kembali.");
+    echo $OUTPUT->header();
+    echo "<a href='$CFG->wwwroot' class='btn btn-primary'>Back</a>";
+    echo $OUTPUT->footer();
+}
+
+// add visited counter
+$shortlinkObj->visited($link, $USER->id);
+
+// redirect user to actual course
+redirect(new moodle_url('/course/view.php', array("id" => $link->course)));

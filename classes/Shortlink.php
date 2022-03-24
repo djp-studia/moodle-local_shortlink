@@ -107,12 +107,29 @@ class Shortlink
      * @return false|mixed|\stdClass
      * @throws \dml_exception
      */
-    static function getCourseByShortlink(string $link){
+    function getShortlink(string $link){
         global $DB;
 
-        $shortlink = $DB->get_record('local_shortlink_link', array("link" => $link), 'course', MUST_EXIST);
-        $course = $DB->get_record('course', array("id" => $shortlink->course), 'id', MUST_EXIST);
+        $shortlink = $DB->get_record('local_shortlink_link', array("link" => $link), '*', MUST_EXIST);
 
-        return $course;
+        return $shortlink;
+    }
+
+    /**
+     * Fungsi untuk insert visited link
+     * @param $link objek link yang dikunjungi
+     * @param $user user yang mengunjungi link
+     * @return void
+     * @throws \dml_exception
+     */
+    function visited($link, $user){
+        global $DB;
+        $data = array(
+            "user" => $user,
+            "link" => $link->id,
+            "timecreated" => time()
+        );
+
+        $DB->insert_record("local_shortlink_link_visited", $data);
     }
 }
